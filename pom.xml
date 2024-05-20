@@ -55,7 +55,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <modules>
     <module>zookeeper-docs</module>
     <module>zookeeper-jute</module>
@@ -566,6 +565,8 @@
     <profile>
       <id>sonar</id>
       <properties>
+        <sonar.organization>alessandro-cortese</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.php.coverage.reportPaths>${project.build.directory}/clover/clover.xml</sonar.php.coverage.reportPaths>
       </properties>
       <build>
