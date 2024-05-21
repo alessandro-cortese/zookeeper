@@ -286,6 +286,46 @@
   </developers>
 
   <profiles>
+
+    <!-- Jacoco profile -->
+    <profile>
+      <id>jacoco</id>
+      <build>
+        <plugins>
+          <!-- Execute tests -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <!-- custom -->
+              <argLine>@{argLine}</argLine>
+            </configuration>
+          </plugin>
+          <!-- Produce Jacoco report -->
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.8</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <!-- attached to Maven test phase -->
+              <execution>
+                <id>report</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
     <profile>
       <id>full-build</id>
       <modules>
@@ -412,7 +452,7 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                        <ignore />
+                        <ignore/>
                       </action>
                     </pluginExecution>
                     <pluginExecution>
@@ -432,6 +472,13 @@
                 </lifecycleMappingMetadata>
               </configuration>
             </plugin>
+
+            <plugin>
+              <groupId>org.jacoco</groupId>
+              <artifactId>jacoco-maven-plugin</artifactId>
+              <version>0.8.11</version>
+            </plugin>
+
           </plugins>
         </pluginManagement>
       </build>
@@ -506,7 +553,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>3.0.0-M4</version>
-            <configuration>
+            <!--configuration>
               <forkCount>${surefire-forkcount}</forkCount>
               <reuseForks>false</reuseForks>
               <argLine>-Xmx512m</argLine>
@@ -515,7 +562,7 @@
               <systemPropertyVariables>
                 <build.test.dir>${project.build.directory}/surefire</build.test.dir>
               </systemPropertyVariables>
-            </configuration>
+            </configuration-->
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -525,51 +572,22 @@
         </plugins>
       </build>
     </profile>
-    <!-- JaCoCo profile -->
-    <profile>
-      <id>JaCoCo-coverage</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-        <property>
-          <name>!skipJaCoCoCoverage</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <version>0.8.11</version>
-            <executions>
-              <execution>
-                <id>prepare-agent</id>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>report</id>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-                <configuration>
-                  <formats>
-                    <format>HTML</format>
-                  </formats>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>sonar</id>
       <properties>
+
+        <!-- JACOCO REPORT PATH -->
+        <sonar.coverage.jacoco.xmlReportPaths>$
+          .../test/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+
+        <!-- SONARCLOUD -->
         <sonar.organization>alessandro-cortese</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.host.url>http://192.168.1.100:9000</sonar.host.url>
-        <sonar.login>${env.SONAR_TOKEN}</sonar.login>
+        <sonar.projectKey>alessandro-cortese_zookeeper</sonar.projectKey>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+
+
         <sonar.php.coverage.reportPaths>${project.build.directory}/clover/clover.xml</sonar.php.coverage.reportPaths>
       </properties>
       <build>
@@ -893,10 +911,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <configuration>
+          <!--configuration>
               <trimStackTrace>false</trimStackTrace>
               <redirectTestOutputToFile>${redirectTestOutputToFile}</redirectTestOutputToFile>
-          </configuration>
+          </configuration-->
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -950,7 +968,12 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.11</version>
+          <version>0.8.8</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.7.0.1746</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
