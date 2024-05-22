@@ -326,11 +326,52 @@
       </build>
     </profile>
 
-    <profile>
-      <id>full-build</id>
-      <modules>
-        <module>zookeeper-contrib</module>
-        <!-- zookeeper-it needed by fatjar contrib -->
+    <!--
+<profile>
+  <id>mutationPIT</id>
+  <activation>
+    <activeByDefault>false</activeByDefault>
+  </activation>
+  <properties>
+    <withHistory>true</withHistory>
+    <pitest.version>1.8.0</pitest.version>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest.version}</version>
+        <configuration>
+          <targetClasses>
+            <param>org.apache.bookkeeper.bookie.BufferedChannel</param>
+          </targetClasses>
+          <targetTests>
+            <param>org.apache.bookkeeper.tls.BookieAuthZFactoryTest</param>
+          </targetTests>
+          <avoidCallsTo>
+            <avoidCallsTo>org.slf4j</avoidCallsTo>
+          </avoidCallsTo>
+        </configuration>
+        <executions>
+          <execution>
+            <id>PIT</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>mutationCoverage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</profile>
+-->
+<profile>
+  <id>full-build</id>
+  <modules>
+    <module>zookeeper-contrib</module>
+    <!-- zookeeper-it needed by fatjar contrib -->
         <module>zookeeper-it</module>
       </modules>
     </profile>
@@ -636,7 +677,7 @@
     <jmockit.version>1.48</jmockit.version>
     <junit.version>5.6.2</junit.version>
     <junit-platform.version>1.6.2</junit-platform.version>
-    <mockito.version>3.6.28</mockito.version>
+    <mockito.version>3.12.3</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
     <commons-cli.version>1.5.0</commons-cli.version>
     <netty.version>4.1.105.Final</netty.version>
