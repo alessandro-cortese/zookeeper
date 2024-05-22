@@ -67,7 +67,7 @@
 <profiles>
   <!-- Jacoco profile -->
   <profile>
-    <id>jacoco</id>
+    <id>JaCoCo-Coverage</id>
     <build>
       <plugins>
         <!-- Execute tests -->
