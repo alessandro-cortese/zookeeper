@@ -261,7 +261,10 @@
           </executions>
           <configuration>
             <threads>4</threads>
-
+            <targetClasses>
+              <param>org.apache.zookeeper.recipes.leader.LeaderElectionSupport</param>
+              <param>org.apache.zookeeper.recipes.leader.LeaderOffer</param>
+            </targetClasses>
           </configuration>
         </plugin>
       </plugins>
