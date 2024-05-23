@@ -1,10 +1,11 @@
 package org.apache.zookeeper.recipes.leader;
+
 import org.junit.jupiter.api.Test;
 
 public class LeaderOfferTest {
 
     @Test
-    public void testDefaultConstructor() {
+    public void TestDefaultConstructor() {
         LeaderOffer offer = new LeaderOffer();
         // Esegui i getter per garantire la copertura
         offer.getId();
@@ -13,7 +14,7 @@ public class LeaderOfferTest {
     }
 
     @Test
-    public void testParameterizedConstructor() {
+    public void TestParameterizedConstructor() {
         LeaderOffer offer = new LeaderOffer(1, "/node1", "host1");
         // Esegui i getter per garantire la copertura
         offer.getId();
@@ -22,7 +23,7 @@ public class LeaderOfferTest {
     }
 
     @Test
-    public void testSetId() {
+    public void TestSetId() {
         LeaderOffer offer = new LeaderOffer();
         offer.setId(2);
         // Esegui il getter per garantire la copertura
@@ -30,7 +31,7 @@ public class LeaderOfferTest {
     }
 
     @Test
-    public void testSetNodePath() {
+    public void TestSetNodePath() {
         LeaderOffer offer = new LeaderOffer();
         offer.setNodePath("/node2");
         // Esegui il getter per garantire la copertura
@@ -38,7 +39,7 @@ public class LeaderOfferTest {
     }
 
     @Test
-    public void testSetHostName() {
+    public void TestSetHostName() {
         LeaderOffer offer = new LeaderOffer();
         offer.setHostName("host2");
         // Esegui il getter per garantire la copertura
@@ -46,14 +47,14 @@ public class LeaderOfferTest {
     }
 
     @Test
-    public void testToString() {
+    public void TestToString() {
         LeaderOffer offer = new LeaderOffer(3, "/node3", "host3");
         // Esegui toString per garantire la copertura
         offer.toString();
     }
 
     @Test
-    public void testIdComparator() {
+    public void TestIdComparator() {
         LeaderOffer offer1 = new LeaderOffer(1, "/node1", "host1");
         LeaderOffer offer2 = new LeaderOffer(2, "/node2", "host2");
         LeaderOffer.IdComparator comparator = new LeaderOffer.IdComparator();

@@ -1,16 +1,18 @@
 package org.apache.zookeeper.recipes.leader;
 
-import static org.junit.Assert.*;
 import org.apache.zookeeper.ZooKeeper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class LeaderElectionSupportTest {
 
     private LeaderElectionSupport leaderElectionSupport;
     private ZooKeeper mockZooKeeper;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         leaderElectionSupport = new LeaderElectionSupport();
         mockZooKeeper = new ZooKeeper("localhost:2181", 3000, null); // mock simple ZooKeeper instance
@@ -20,14 +22,14 @@ public class LeaderElectionSupportTest {
     }
 
     @Test
-    public void testDummyAddListener() {
+    public void TestDummyAddListener() {
         // Aggiunge un listener dummy e verifica se è stato aggiunto senza errori
         leaderElectionSupport.addListener(eventType -> {});
         assertTrue(true);
     }
 
     @Test
-    public void testDummyStart() {
+    public void TestDummyStart() {
         // Esegue il metodo start e verifica se è stato eseguito senza errori
         try {
             leaderElectionSupport.start();
@@ -38,7 +40,7 @@ public class LeaderElectionSupportTest {
     }
 
     @Test
-    public void testDummyStop() {
+    public void TestDummyStop() {
         // Esegue il metodo stop e verifica se è stato eseguito senza errori
         try {
             leaderElectionSupport.stop();
@@ -49,21 +51,21 @@ public class LeaderElectionSupportTest {
     }
 
     @Test
-    public void testDummySetZooKeeper() {
+    public void TestDummySetZooKeeper() {
         // Imposta un'istanza di ZooKeeper e verifica se è stato impostato senza errori
         leaderElectionSupport.setZooKeeper(mockZooKeeper);
         assertTrue(true);
     }
 
     @Test
-    public void testDummySetHostName() {
+    public void TestDummySetHostName() {
         // Imposta un nome host e verifica se è stato impostato senza errori
         leaderElectionSupport.setHostName("anotherDummyHost");
         assertTrue(true);
     }
 
     @Test
-    public void testDummySetRootNodeName() {
+    public void TestDummySetRootNodeName() {
         // Imposta un nome nodo root e verifica se è stato impostato senza errori
         leaderElectionSupport.setRootNodeName("/anotherDummyRoot");
         assertTrue(true);
