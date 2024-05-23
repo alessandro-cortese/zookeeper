@@ -39,5 +39,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Jacoco_Report
-          path: tests/target/site/jacoco-aggregate/
+          path: zookeeper-recipes/zookeeper-recipes-election/target/site/jacoco
           if-no-files-found: error
