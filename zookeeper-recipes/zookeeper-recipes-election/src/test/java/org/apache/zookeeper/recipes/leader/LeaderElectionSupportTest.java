@@ -1,18 +1,19 @@
 package org.apache.zookeeper.recipes.leader;
 
 import org.apache.zookeeper.ZooKeeper;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.junit.jupiter.api.BeforeEach;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class LeaderElectionSupportTest {
 
     private LeaderElectionSupport leaderElectionSupport;
     private ZooKeeper mockZooKeeper;
 
-    @BeforeEach
+    @Before
     public void setUp() throws Exception {
         leaderElectionSupport = new LeaderElectionSupport();
         mockZooKeeper = new ZooKeeper("localhost:2181", 3000, null); // mock simple ZooKeeper instance

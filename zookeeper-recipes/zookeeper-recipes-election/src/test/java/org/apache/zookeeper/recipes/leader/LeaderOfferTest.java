@@ -1,6 +1,6 @@
 package org.apache.zookeeper.recipes.leader;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class LeaderOfferTest {
 
