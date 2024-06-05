@@ -32,6 +32,10 @@
   <name>Apache ZooKeeper - Server</name>
   <description>ZooKeeper server</description>
 
+  <properties>
+    <ba-dua.version>0.6.0</ba-dua.version>
+  </properties>
+
   <dependencies>
 
     <dependency>
@@ -395,7 +399,9 @@
 
      </plugins>
   </build>
+
   <profiles>
+
     <!-- JaCoCo profile -->
     <profile>
       <id>JaCoCo-Coverage</id>
@@ -434,6 +440,44 @@
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+
+    <!-- PIT Profile -->
+    <profile>
+      <id>Pitest</id>
+
+      <dependencies>
+        <dependency>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>LATEST</version>
+        </dependency>
+      </dependencies>
+
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <threads>4</threads>
+              <targetClasses>
+                <!--param>org.apache.bookkeeper.bookie.BufferedChannel</param-->
+                <!--param>org.apache.bookkeeper.util.AvailabilityOfEntriesOfLedger</param-->
+              </targetClasses>
+            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -528,43 +572,7 @@
 
     </profile>
 
-    <!-- Pit profile -->
-    <profile>
-      <id>Pitest</id>
 
-      <dependencies>
-        <dependency>
-          <groupId>org.pitest</groupId>
-          <artifactId>pitest-maven</artifactId>
-          <version>LATEST</version>
-        </dependency>
-      </dependencies>
-
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-maven</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>mutationCoverage</goal>
-                </goals>
-                <phase>verify</phase>
-              </execution>
-            </executions>
-            <configuration>
-              <threads>4</threads>
-              <targetClasses>
-                <!--param>org.apache.zookeeper.recipes.leader.LeaderElectionSupport</param-->
-                <!--param>org.apache.zookeeper.recipes.leader.LeaderOffer</param-->
-              </targetClasses>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
   </profiles>
-
 
 </project>
