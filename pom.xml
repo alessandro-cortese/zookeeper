@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-<!--
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
--->
+  <!--
+  /**
+   * Licensed to the Apache Software Foundation (ASF) under one
+   * or more contributor license agreements.  See the NOTICE file
+   * distributed with this work for additional information
+   * regarding copyright ownership.  The ASF licenses this file
+   * to you under the Apache License, Version 2.0 (the
+   * "License"); you may not use this file except in compliance
+   * with the License.  You may obtain a copy of the License at
+   *
+   *     http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   */
+  -->
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.apache</groupId>
@@ -32,7 +32,7 @@
   <packaging>pom</packaging>
   <!-- to change version: mvn -B release:update-versions -DdevelopmentVersion=3.6.0-SNAPSHOT -->
   <version>3.10.0-SNAPSHOT</version>
-  <name>ZooKeeper</name>
+  <name>Apache ZooKeeper</name>
   <description>
     ZooKeeper is a centralized service for maintaining configuration information, naming,
     providing distributed synchronization, and providing group services. All of these kinds
@@ -55,6 +55,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
   <modules>
     <module>zookeeper-docs</module>
     <module>zookeeper-jute</module>
@@ -64,7 +65,6 @@
     <module>zookeeper-recipes</module>
     <module>zookeeper-assembly</module>
     <module>zookeeper-compatibility-tests</module>
-    <module>tests</module>
   </modules>
 
   <scm>
@@ -248,10 +248,10 @@
       <timezone>-8</timezone>
     </developer>
     <developer>
-        <id>eolivelli</id>
-        <name>Enrico Olivelli</name>
-        <email>eolivelli@apache.org</email>
-        <timezone>+1</timezone>
+      <id>eolivelli</id>
+      <name>Enrico Olivelli</name>
+      <email>eolivelli@apache.org</email>
+      <timezone>+1</timezone>
     </developer>
     <developer>
       <id>nkalmar</id>
@@ -286,52 +286,56 @@
   </developers>
 
   <profiles>
-    <!--
-<profile>
-  <id>mutationPIT</id>
-  <activation>
-    <activeByDefault>false</activeByDefault>
-  </activation>
-  <properties>
-    <withHistory>true</withHistory>
-    <pitest.version>1.8.0</pitest.version>
-  </properties>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-        <version>${pitest.version}</version>
-        <configuration>
-          <targetClasses>
-            <param>org.apache.bookkeeper.bookie.BufferedChannel</param>
-          </targetClasses>
-          <targetTests>
-            <param>org.apache.bookkeeper.tls.BookieAuthZFactoryTest</param>
-          </targetTests>
-          <avoidCallsTo>
-            <avoidCallsTo>org.slf4j</avoidCallsTo>
-          </avoidCallsTo>
-        </configuration>
-        <executions>
-          <execution>
-            <id>PIT</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>mutationCoverage</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
-</profile>
--->
-<profile>
-  <id>full-build</id>
-  <modules>
-    <module>zookeeper-contrib</module>
-    <!-- zookeeper-it needed by fatjar contrib -->
+
+    <!-- JaCoCo profile -->
+    <profile>
+      <id>JaCoCo-Coverage</id>
+      <activation>
+        <property>
+          <name>!skipJaCoCoCoverage</name>
+        </property>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <!-- custom -->
+              <argLine>@{argLine}</argLine>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.11</version>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>report</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>report</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>full-build</id>
+      <modules>
+        <module>zookeeper-contrib</module>
+        <!-- zookeeper-it needed by fatjar contrib -->
         <module>zookeeper-it</module>
       </modules>
     </profile>
@@ -345,44 +349,44 @@
       </modules>
     </profile>
     <profile>
-        <id>apache-release</id>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.apache.apache.resources</groupId>
-                            <artifactId>apache-source-release-assembly-descriptor</artifactId>
-                            <version>1.0.6</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <id>source-release-assembly-tar-gz</id>
-                            <phase>initialize</phase>
-                            <goals>
-                                <goal>single</goal>
-                            </goals>
-                            <configuration>
-                                <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
-                                <descriptorRefs>
-                                    <!-- defined in Apache Parent Pom -->
-                                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
-                                </descriptorRefs>
-                                <finalName>apache-zookeeper-${project.version}</finalName>
-                                <appendAssemblyId>false</appendAssemblyId>
-                                <formats>
-                                    <format>tar.gz</format>
-                                </formats>
-                                <tarLongFileMode>posix</tarLongFileMode>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
+      <id>apache-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <dependencies>
+              <dependency>
+                <groupId>org.apache.apache.resources</groupId>
+                <artifactId>apache-source-release-assembly-descriptor</artifactId>
+                <version>1.0.6</version>
+              </dependency>
+            </dependencies>
+            <executions>
+              <execution>
+                <id>source-release-assembly-tar-gz</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                <configuration>
+                  <runOnlyAtExecutionRoot>true</runOnlyAtExecutionRoot>
+                  <descriptorRefs>
+                    <!-- defined in Apache Parent Pom -->
+                    <descriptorRef>${sourceReleaseAssemblyDescriptor}</descriptorRef>
+                  </descriptorRefs>
+                  <finalName>apache-zookeeper-${project.version}</finalName>
+                  <appendAssemblyId>false</appendAssemblyId>
+                  <formats>
+                    <format>tar.gz</format>
+                  </formats>
+                  <tarLongFileMode>posix</tarLongFileMode>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
     <profile>
       <id>m2e</id>
@@ -453,7 +457,7 @@
                         </goals>
                       </pluginExecutionFilter>
                       <action>
-                        <ignore/>
+                        <ignore />
                       </action>
                     </pluginExecution>
                     <pluginExecution>
@@ -473,13 +477,6 @@
                 </lifecycleMappingMetadata>
               </configuration>
             </plugin>
-
-            <plugin>
-              <groupId>org.jacoco</groupId>
-              <artifactId>jacoco-maven-plugin</artifactId>
-              <version>0.8.11</version>
-            </plugin>
-
           </plugins>
         </pluginManagement>
       </build>
@@ -529,8 +526,8 @@
               </includes>
               <excludes>
                 <exclude>org/apache/zookeeper/version/**/*</exclude>
-                  <exclude>**/ReadOnlyModeTest.java</exclude>
-                  <exclude>**/KeeperStateTest.java</exclude>
+                <exclude>**/ReadOnlyModeTest.java</exclude>
+                <exclude>**/KeeperStateTest.java</exclude>
               </excludes>
             </configuration>
             <executions>
@@ -550,45 +547,12 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.22.1</version>
-            <!--configuration>
-              <forkCount>${surefire-forkcount}</forkCount>
-              <reuseForks>false</reuseForks>
-              <argLine>-Xmx512m</argLine>
-              <basedir>${project.basedir}</basedir>
-              <redirectTestOutputToFile>true</redirectTestOutputToFile>
-              <systemPropertyVariables>
-                <build.test.dir>${project.build.directory}/surefire</build.test.dir>
-              </systemPropertyVariables>
-            </configuration-->
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>3.0.0-M4</version>
-          </plugin>
         </plugins>
       </build>
     </profile>
     <profile>
       <id>sonar</id>
       <properties>
-
-        <!-- JACOCO REPORT PATH -->
-        <sonar.coverage.jacoco.xmlReportPaths>$
-          .../test/target/site/jacoco-aggregate/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-
-        <!-- SONARCLOUD -->
-        <sonar.organization>alessandro-cortese</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.projectKey>alessandro-cortese_zookeeper</sonar.projectKey>
-        <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
-
-
         <sonar.php.coverage.reportPaths>${project.build.directory}/clover/clover.xml</sonar.php.coverage.reportPaths>
       </properties>
       <build>
@@ -596,6 +560,7 @@
           <plugin>
             <groupId>org.sonarsource.scanner.maven</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
+            <version>3.7.0.1746</version>
           </plugin>
         </plugins>
         <pluginManagement>
@@ -617,6 +582,8 @@
         </pluginManagement>
       </build>
     </profile>
+
+
   </profiles>
 
   <properties>
@@ -625,7 +592,15 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.outputTimestamp>1691130453</project.build.outputTimestamp>
     <dependency.locations.enabled>false</dependency.locations.enabled>
-    <surefire.version>2.22.1</surefire.version>
+    <surefire.version>3.2.5</surefire.version>
+    <!-- JACOCO REPORT PATH -->
+    <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/test-jacoco-coverage/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    <!-- SONARCLOUD -->
+    <sonar.projectKey>alessandro-cortese_zookeeper</sonar.projectKey>
+    <sonar.moduleKey>${project.groupId}:${project.artifactId}</sonar.moduleKey>
+    <!-- Sonar Cloud dependencies -->
+    <sonar.organization>alessandro-cortese</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
     <surefire-forkcount>8</surefire-forkcount>
     <redirectTestOutputToFile>true</redirectTestOutputToFile>
@@ -637,7 +612,7 @@
     <jmockit.version>1.48</jmockit.version>
     <junit.version>5.6.2</junit.version>
     <junit-platform.version>1.6.2</junit-platform.version>
-    <mockito.version>3.12.3</mockito.version>
+    <mockito.version>4.9.0</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
     <commons-cli.version>1.5.0</commons-cli.version>
     <netty.version>4.1.105.Final</netty.version>
@@ -655,11 +630,12 @@
     <commons-io.version>2.11.0</commons-io.version>
     <burningwave.mockdns.version>0.25.4</burningwave.mockdns.version>
     <clover-maven-plugin.version>4.4.1</clover-maven-plugin.version>
-    <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
+    <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
 
     <!-- parameters to pass to C client build -->
     <c-client-openssl>yes</c-client-openssl>
     <c-client-sasl>yes</c-client-sasl>
+
 
   </properties>
 
@@ -811,10 +787,10 @@
         <artifactId>metrics-core</artifactId>
         <version>${dropwizard.version}</version>
         <exclusions>
-           <exclusion>
-              <groupId>org.slf4j</groupId>
-              <artifactId>slf4j-api</artifactId>
-           </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -859,16 +835,17 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-             <showWarnings>true</showWarnings>
-             <compilerArgs>
-               <compilerArg>-Xlint:deprecation</compilerArg>
-               <compilerArg>-Xlint:unchecked</compilerArg>
-               <compilerArg>-Xlint:-options</compilerArg>
-               <compilerArg>-Xdoclint:-missing</compilerArg>
-               <!-- https://issues.apache.org/jira/browse/MCOMPILER-205 -->
-               <compilerArg>-Xpkginfo:always</compilerArg>
-              </compilerArgs>
-            </configuration>
+            <showWarnings>true</showWarnings>
+            <compilerArgs>
+              <compilerArg>-Werror</compilerArg>
+              <compilerArg>-Xlint:deprecation</compilerArg>
+              <compilerArg>-Xlint:unchecked</compilerArg>
+              <compilerArg>-Xlint:-options</compilerArg>
+              <compilerArg>-Xdoclint:-missing</compilerArg>
+              <!-- https://issues.apache.org/jira/browse/MCOMPILER-205 -->
+              <compilerArg>-Xpkginfo:always</compilerArg>
+            </compilerArgs>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -911,11 +888,10 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-          <!--configuration>
-              <trimStackTrace>false</trimStackTrace>
-              <redirectTestOutputToFile>${redirectTestOutputToFile}</redirectTestOutputToFile>
-          </configuration-->
+          <configuration>
+            <trimStackTrace>false</trimStackTrace>
+            <redirectTestOutputToFile>${redirectTestOutputToFile}</redirectTestOutputToFile>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -967,16 +943,6 @@
           <version>8.3.1</version>
         </plugin>
         <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.8</version>
-        </plugin>
-        <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.7.0.1746</version>
-        </plugin>
-        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
           <version>3.1.1</version>
@@ -1003,8 +969,8 @@
           <artifactId>maven-remote-resources-plugin</artifactId>
           <executions>
             <execution>
-               <id>process-resource-bundles</id>
-               <phase>none</phase>
+              <id>process-resource-bundles</id>
+              <phase>none</phase>
             </execution>
           </executions>
         </plugin>
@@ -1017,7 +983,23 @@
           <groupId>org.cyclonedx</groupId>
           <artifactId>cyclonedx-maven-plugin</artifactId>
           <version>2.7.9</version>
-       </plugin>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.7.0.1746</version>
+        </plugin>
+        <!--
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.11</version>
+        </plugin> -->
       </plugins>
     </pluginManagement>
 
@@ -1187,47 +1169,47 @@
         </configuration>
       </plugin>
       <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <inherited>false</inherited>
-          <configuration>
-            <!-- update the version inside the C sources -->
-            <preparationGoals>clean verify -DskipTests antrun:run@replace-cclient-files-during-release scm:add@add-cclient-files-during-release scm:checkin@commit-cclient-files-during-release</preparationGoals>
-            <completionGoals>clean verify -DskipTests antrun:run@replace-cclient-files-during-release scm:add@add-cclient-files-during-release scm:checkin@commit-cclient-files-during-release</completionGoals>
-            <pushChanges>false</pushChanges>
-            <localCheckout>true</localCheckout>
-            <autoVersionSubmodules>true</autoVersionSubmodules>
-            <tagNameFormat>release-@{project.version}</tagNameFormat>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-scm-plugin</artifactId>
-          <inherited>false</inherited>
-          <executions>
-             <execution>
-               <id>add-cclient-files-during-release</id>
-               <phase>none</phase>
-               <goals>
-                 <goal>add</goal>
-               </goals>
-               <configuration>
-                 <pushChanges>false</pushChanges>
-                 <includes>zookeeper-client/zookeeper-client-c/CMakeLists.txt,zookeeper-client/zookeeper-client-c/configure.ac,zookeeper-client/zookeeper-client-c/include/zookeeper_version.h</includes>
-               </configuration>
-            </execution>
-            <execution>
-               <id>commit-cclient-files-during-release</id>
-               <phase>none</phase>
-               <goals>
-                   <!-- git commit -->
-                <goal>checkin</goal>
-              </goals>
-              <configuration>
-                 <pushChanges>false</pushChanges>
-                 <message>Prepared ${project.version}</message>
-              </configuration>
-            </execution>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <inherited>false</inherited>
+        <configuration>
+          <!-- update the version inside the C sources -->
+          <preparationGoals>clean verify -DskipTests antrun:run@replace-cclient-files-during-release scm:add@add-cclient-files-during-release scm:checkin@commit-cclient-files-during-release</preparationGoals>
+          <completionGoals>clean verify -DskipTests antrun:run@replace-cclient-files-during-release scm:add@add-cclient-files-during-release scm:checkin@commit-cclient-files-during-release</completionGoals>
+          <pushChanges>false</pushChanges>
+          <localCheckout>true</localCheckout>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <tagNameFormat>release-@{project.version}</tagNameFormat>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-plugin</artifactId>
+        <inherited>false</inherited>
+        <executions>
+          <execution>
+            <id>add-cclient-files-during-release</id>
+            <phase>none</phase>
+            <goals>
+              <goal>add</goal>
+            </goals>
+            <configuration>
+              <pushChanges>false</pushChanges>
+              <includes>zookeeper-client/zookeeper-client-c/CMakeLists.txt,zookeeper-client/zookeeper-client-c/configure.ac,zookeeper-client/zookeeper-client-c/include/zookeeper_version.h</includes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>commit-cclient-files-during-release</id>
+            <phase>none</phase>
+            <goals>
+              <!-- git commit -->
+              <goal>checkin</goal>
+            </goals>
+            <configuration>
+              <pushChanges>false</pushChanges>
+              <message>Prepared ${project.version}</message>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
