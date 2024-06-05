@@ -39,5 +39,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: BaDuaCoverage_Report
-          path: zookeeper-recipes/zookeeper-recipes-election/target/badua.xml
+          path: zookeeper-server/target/badua.xml
           if-no-files-found: error

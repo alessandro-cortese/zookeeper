@@ -34,10 +34,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn clean -B verify -P JaCoCo-Coverage
+        run: mvn clean -B verify -P JaCoCo-coverage
       - name: Upload report
         uses: actions/upload-artifact@v3
         with:
           name: Jacoco_Report
-          path: zookeeper-recipes/zookeeper-recipes-election/target/site/jacoco
+          path: tests/target/site/jacoco-aggregate/
           if-no-files-found: error
