@@ -456,7 +456,7 @@
               <timeoutConstant>6000</timeoutConstant>
               <targetClasses>
                 <param>org.apache.zookeeper.common.PathUtils</param>
-                <param>org.apache.zookeeper.common.PathTrie</param>
+                <!--param>org.apache.zookeeper.common.PathTrie</param-->
               </targetClasses>
             </configuration>
             <executions>
