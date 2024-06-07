@@ -27,7 +27,7 @@ public class TestPathUtilsImprove {
     }
 
     @Parameterized.Parameters
-    public static Collection<?> data() {
+    public static Collection<?> getParameters() {
 
         String validPath = "/abab/";
         StringBuilder pathBuilder = new StringBuilder(validPath);
