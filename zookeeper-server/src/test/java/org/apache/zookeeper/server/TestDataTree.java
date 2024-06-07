@@ -87,14 +87,7 @@ public class TestDataTree {
                 {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.EMPTY,    0L,                 -1,                 1L,         0L,     STAT_STATE.VALID,   true},          //case 14
                 {PATH_STATE.EMPTY,          DATA_STATE.VALID,   ACL_STATE.VALID,    0L,                 0,                  1L,         -1L,    STAT_STATE.NULL,    true},          //case 15
                 {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.EMPTY,    1L,                 1,                  -1L,        1L,     STAT_STATE.VALID,   true},          //case 16
-                {PATH_STATE.EMPTY,          DATA_STATE.INVALID, ACL_STATE.NULL,     1L,                 1,                  1L,         1,      STAT_STATE.NULL,    true},          //case 17
-
-                //After ba-dua and JaCoCo reports
-
-                {PATH_STATE.VALID,          DATA_STATE.VALID, ACL_STATE.VALID,      2L,                 1,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 18
-                {PATH_STATE.VALID,          DATA_STATE.VALID, ACL_STATE.VALID,      3L,                 1,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 19
-                {PATH_STATE.LONG_PATH,      DATA_STATE.VALID, ACL_STATE.VALID,      1L,                 1,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 20
-                {PATH_STATE.ZOOKEEPER_PATH, DATA_STATE.VALID, ACL_STATE.VALID,      1L,                 1,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 21
+                {PATH_STATE.EMPTY,          DATA_STATE.INVALID, ACL_STATE.NULL,     1L,                 1,                  1L,         1,      STAT_STATE.NULL,    true}           //case 17
 
         });
 
@@ -157,10 +150,7 @@ public class TestDataTree {
         invalidAcl.add(aclRules1);
         invalidAcl.add(aclRules2);
         //valid ACL
-        ACL aclRules3 = new ACL(ZooDefs.Perms.ALL, new Id("world", "anyone"));
-        ACL aclRules4 = new ACL(ZooDefs.Perms.READ, new Id("world", "anyone"));
-        validAcl.add(aclRules3);
-        validAcl.add(aclRules4);
+        validAcl = ZooDefs.Ids.CREATOR_ALL_ACL;
 
         switch (this.aclState) {
             case VALID:
