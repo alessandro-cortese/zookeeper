@@ -17,13 +17,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+
 @RunWith(Parameterized.class)
-public class TestDataTree {
+public class TestDataTreeImprove {
 
     private final static String VALID_PATH = "/abab";
     private final static String INVALID_PATH = "abc";
-    private final static String LONG_PATH = "/This/is/a/long/path";
-    private final static String ZOOKEEPER_PATH = "/zookeeper/quota";
+    private final static String LONG_PATH = "/This/is/a/long/path/to/see/if/it/is/managed/correctly";
+    private final static String ZOOKEEPER_PATH = "/zookeeper/quota/zookeeper_stats";
+    private final static String TTL_NODE_PATH = "/node.1/node.2/node.3";
+
 
     private DataTree dataTree;
     private String path;
@@ -42,7 +45,7 @@ public class TestDataTree {
 
     private boolean isExpectedException;
 
-    public TestDataTree(
+    public TestDataTreeImprove(
             PATH_STATE pathState,
             DATA_STATE dataState,
             ACL_STATE aclState,
@@ -53,44 +56,18 @@ public class TestDataTree {
             STAT_STATE statState,
             boolean isExpectedException){
 
-            this.pathState = pathState;
-            this.dataState = dataState;
-            this.aclState = aclState;
-            this.ephemeralOwner = ephemeralOwner;
-            this.parentCVersion = parentCVersion;
-            this.zxid = zxid;
-            this.time = time;
-            this.statState = statState;
-            this.isExpectedException = isExpectedException;
+        this.pathState = pathState;
+        this.dataState = dataState;
+        this.aclState = aclState;
+        this.ephemeralOwner = ephemeralOwner;
+        this.parentCVersion = parentCVersion;
+        this.zxid = zxid;
+        this.time = time;
+        this.statState = statState;
+        this.isExpectedException = isExpectedException;
 
     }
 
-    @Parameterized.Parameters
-    public static Collection<Object[]> getParameters() {
-
-        return Arrays.asList(new Object[][]{
-                //{PATH_STATE,              DATA_STATE,         ACL_STATE,          EPHEMERAL_OWNER,    PARENTCVERSION,     ZXID,      TIME,    OUTPUTSTAT,         EXCEPTION}
-                {PATH_STATE.NULL,           DATA_STATE.NULL,    ACL_STATE.VALID,    -1L,                0,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 1
-                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,    -2L,                1,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 2
-                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,    0L,                 1,                  1L,         1L,     STAT_STATE.VALID,   false},         //case 3
-                {PATH_STATE.INVALID,        DATA_STATE.VALID,   ACL_STATE.VALID,    -1L,                1,                  1L,         0L,     STAT_STATE.VALID,   true},          //case 4
-                {PATH_STATE.INVALID,        DATA_STATE.VALID,   ACL_STATE.VALID,    0L,                 1,                  1L,         0L,     STAT_STATE.VALID,   true},          //case 5
-                {PATH_STATE.VALID,          DATA_STATE.INVALID, ACL_STATE.INVALID,  0L,                 1,                  1L,         0L,     STAT_STATE.VALID,   true},          //case 6
-                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,    0L,                 1,                  1L,         1L,     STAT_STATE.INVALID, true},          //case 7
-                {PATH_STATE.VALID,          DATA_STATE.EXCEED,  ACL_STATE.VALID,    1L,                 1,                  1L,         1L,     STAT_STATE.VALID,   true},          //case 8
-                {PATH_STATE.VALID,          DATA_STATE.EXCEED,  ACL_STATE.VALID,    1L,                 1,                  1L,         0L,     STAT_STATE.VALID,   true},          //case 9
-                {PATH_STATE.VALID,          DATA_STATE.EMPTY,   ACL_STATE.EMPTY,    -1L,                -1,                 1L,         0L,     STAT_STATE.VALID,   true},          //case 10
-                {PATH_STATE.VALID,          DATA_STATE.EMPTY,   ACL_STATE.VALID,    0L,                 1,                  1L,         1L,     STAT_STATE.NULL,    false},         //case 11
-                {PATH_STATE.VALID,          DATA_STATE.INVALID, ACL_STATE.NULL,     0L,                 1,                  1L,         0L,     STAT_STATE.VALID,   true},          //case 12
-                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,    0L,                 1,                  -1L,        0L,     STAT_STATE.VALID,   true},          //case 13
-                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.EMPTY,    0L,                 -1,                 1L,         0L,     STAT_STATE.VALID,   true},          //case 14
-                {PATH_STATE.EMPTY,          DATA_STATE.VALID,   ACL_STATE.VALID,    0L,                 0,                  1L,         -1L,    STAT_STATE.NULL,    true},          //case 15
-                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.EMPTY,    1L,                 1,                  -1L,        1L,     STAT_STATE.VALID,   true},          //case 16
-                {PATH_STATE.EMPTY,          DATA_STATE.INVALID, ACL_STATE.NULL,     1L,                 1,                  1L,         1,      STAT_STATE.NULL,    true},          //case 17
-
-        });
-
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -114,6 +91,9 @@ public class TestDataTree {
                 break;
             case ZOOKEEPER_PATH:
                 this.path = ZOOKEEPER_PATH;
+                break;
+            case TTL_PATH:
+                this.path = TTL_NODE_PATH;
                 break;
         }
 
@@ -184,6 +164,21 @@ public class TestDataTree {
 
     }
 
+    @Parameterized.Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][]{
+                //{PATH_STATE,              DATA_STATE,         ACL_STATE,              EPHEMERAL_OWNER,        PARENTCVERSION,     ZXID,       TIME,       OUTPUTSTAT,         EXCEPTION}
+                //After ba-dua and JaCoCo reports
+                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,        Long.MIN_VALUE,         1,                  1L,         1L,         STAT_STATE.VALID,   true},          //case 18
+                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,        2L,                     1,                  1L,         1L,         STAT_STATE.VALID,   true},          //case 19
+                {PATH_STATE.LONG_PATH,      DATA_STATE.VALID,   ACL_STATE.VALID,        1L,                     1,                  1L,         1L,         STAT_STATE.VALID,   true},          //case 20
+                {PATH_STATE.ZOOKEEPER_PATH, DATA_STATE.EMPTY,   ACL_STATE.VALID,        0L,                     2,                  1L,         1L,         STAT_STATE.VALID,   true},          //case 21
+                {PATH_STATE.VALID,          DATA_STATE.VALID,   ACL_STATE.VALID,        0L,                     0,                  1L,         1L,         STAT_STATE.VALID,   false}          //case 22
+
+
+        });
+    }
+
     @Test
     public void createNodeTest(){
 
@@ -197,5 +192,7 @@ public class TestDataTree {
             Assert.assertTrue(this.isExpectedException);
         }
     }
+
+
 
 }

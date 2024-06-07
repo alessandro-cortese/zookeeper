@@ -6,5 +6,6 @@ public enum PATH_STATE {
     VALID,
     INVALID,
     LONG_PATH,
-    ZOOKEEPER_PATH
+    ZOOKEEPER_PATH,
+    TTL_PATH
 }
