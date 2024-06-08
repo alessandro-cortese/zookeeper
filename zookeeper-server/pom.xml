@@ -458,6 +458,9 @@
                 <!--param>org.apache.zookeeper.common.PathUtils</param-->
                 <param>org.apache.zookeeper.server.DataTree</param>
               </targetClasses>
+              <targetTests>
+                org.apache.zookeeper.server.createNode.*
+              </targetTests>
             </configuration>
             <executions>
               <execution>
