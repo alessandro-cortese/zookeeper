@@ -71,7 +71,7 @@ public class TestDataTreeDeleteNodeImprove {
         if(this.deleteParent) {
 
             this.dataTree.createNode("/abab", new byte[100], ZooDefs.Ids.CREATOR_ALL_ACL, 0L, 1, 1L, 1L, null);
-            this.dataTree.createNode(this.path, new byte[100], ZooDefs.Ids.CREATOR_ALL_ACL, 0L, 1, 1L, 1L, null);
+            this.dataTree.createNode(this.path, new byte[100], ZooDefs.Ids.CREATOR_ALL_ACL, 0L, 0, 1L, 1L, null);
             this.dataTree.deleteNode("/abab", 0L);
 
         }
