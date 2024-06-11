@@ -1,9 +1,7 @@
 package org.apache.zookeeper.server.deleteNode;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.ZooDefs;
-import org.apache.zookeeper.server.DataNode;
 import org.apache.zookeeper.server.DataTree;
 import org.junit.Assert;
 import org.junit.Test;
